@@ -6,4 +6,4 @@ Make sure that the Archi application has set the scripts directory pointing to t
 
 To read more about the configuration please refer to the section:
 
-- "Configurar plug-in jArchi" from the file `q_analysis/INSTALLATION_GUIDE_ESP.md`.
+- "[Configurar plug-in jArchi](../README.md#configurar-plug-in-jarchi)".

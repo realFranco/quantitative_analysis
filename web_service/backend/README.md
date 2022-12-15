@@ -12,7 +12,7 @@ This project use some environment variables, make sure that you have read it bef
 into a Linux distribution.
 
 - `PROJECT_NAME`: 
-    - Description: The name of the project by default will have the name `q_analysis`, if the project 
+    - Description: The name of the project by default will have the name `quantitative_analysis`, if the project 
     name change you should change this value as well.
 
 - `PROJECT_LOCATION`: 
