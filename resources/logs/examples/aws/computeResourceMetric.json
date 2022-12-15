@@ -1,0 +1,21 @@
+[
+    {
+        "request_id": "9881fef5-292d-4750-bf67-bc2ad320f2d5",
+        "code": "ECONNRESET",
+        "@message": {
+            "function_name": "aws-lambda-lanzamiento-de-notificaciones",
+            "cpu_user_time": 6120,
+            "cpu_system_time": 2880,
+            "cpu_total_time": 9000,
+            "memory_utilization": 87,
+            "tx_bytes": 1792,
+            "rx_bytes": 3328,
+            "total_network": 5120,
+            "tmp_used": 33080770,
+            "tmp_max": 551346176,
+            "_aws": {
+                "Timestamp": 1666019303137
+            }
+        }
+    }
+]

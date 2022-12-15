@@ -1,0 +1,187 @@
+/*
+Agregar propiedad "w" sobre cada lambda del diagrama.
+*/
+
+// helper function: given a list of objects and a list, flat the object result
+function appendItem(list, data){
+    if (undefined != data){
+        data.forEach(item => {
+            list.push(item);
+        });
+    }
+    return list;
+}
+
+// helper function: given a resource object return a float
+function fetchResource(resource){
+    return resource.cpu + resource.ram  + resource.network + resource.storage;
+}
+
+// helper function: reduce a list of integers
+function sum(arr){
+    let sum = 0;
+    for (const value of arr) {
+      sum += value;
+    }
+
+    return sum;
+}
+
+// helper function: recolectar todos los nombres de servicios dentro de los recursos
+function collectServiceNames(jobs_data){
+    let serviceNames = [];
+    
+    function checkJobByCategory(section, category, serviceNames){
+        if (section.hasOwnProperty(category)){
+            section[category].forEach(job => {
+                if(serviceNames.indexOf(job.name) == -1)
+                serviceNames.push(job.name);
+            });
+        }
+
+        return serviceNames;
+    }
+
+    jobs_data.forEach(item => {
+        serviceNames = checkJobByCategory(item, 'servicesEnds', serviceNames);
+        serviceNames = checkJobByCategory(item, 'serviceNotEnds', serviceNames);
+        serviceNames = checkJobByCategory(item, 'serviceRetry', serviceNames);
+    });
+
+    return serviceNames;
+}
+
+// number, string {'end', 'not_end', 'retry'}
+function getJobsByTimeWindow(jobs_data, timeWindow, jobName, jobStatus){
+    if (timeWindow < 0){
+        return 0;
+    }
+
+    let services = [];
+    let resources = [];
+    jobs_data.forEach(item => {
+        if (item.timeWindow == timeWindow){
+            if (jobStatus == 'end'){
+                // services.push(item.servicesEnds);
+                services = appendItem(services, item.servicesEnds);
+            }
+            if (jobStatus == 'not_end'){
+                // services.push(item.serviceNotEnds);
+                services = appendItem(services, item.serviceNotEnds);
+            }
+            if (jobStatus == 'retry'){
+                // services.push(item.serviceRetry);
+                services = appendItem(services, item.serviceRetry);
+            }
+        }
+    });
+    // console.log(`services: ${JSON.stringify(services)}`);
+    services.forEach(item => {
+        if (undefined != item && jobName == item.name)
+            resources.push(fetchResource(item.resources));
+    });
+    // console.log('total resources ', sum(resources));
+
+    return sum(resources);
+}
+
+/*
+Dada una ventana de tiempo y un job name, se computan los resources
+el tope es 4 puntos por ventana de tiempo, en caso de que cpu, ram, network y storage llegue al tope.
+
+job que ha podido finalizar en la ventan de tiempo estipulada
+*/
+function totalResources(jobs_data, timeWindow, jobName){
+    return getJobsByTimeWindow(jobs_data, timeWindow, jobName, 'end');
+}
+
+// job que no ha podido finalizar correctamente
+function totalEndResources(jobs_data, timeWindow, jobName){
+    return getJobsByTimeWindow(jobs_data, timeWindow, jobName, 'not_end');
+}
+
+// job reintentado, debe el mismo job que la ventana de tiempo anterior
+function totalReutilizedResources(jobs_data, timeWindow, jobName){
+    return getJobsByTimeWindow(jobs_data, timeWindow, jobName, 'retry');
+}
+
+// timeWindow >= 0
+function totalDemandedResources(jobs_data, timeWindow, jobName){
+    let out = 0;
+    if (timeWindow < 0){
+        return out;
+    }
+
+    out = totalResources(jobs_data, timeWindow, jobName, true) + 
+        totalReutilizedResources(jobs_data, timeWindow-1, jobName) - 
+        totalEndResources(jobs_data, timeWindow, jobName, false);
+
+    if (out < 0){
+        out = out * -1;
+    }
+    // console.log('Total resources demanded: ', totalResources(timeWindow, jobName));
+    // console.log('Total resources reutilized: ', totalReutilizedResources(timeWindow-1, jobName));
+    // console.log('Total resources ended: ', totalEndResources(timeWindow, jobName));
+
+    // console.log(`Current time window: ${timeWindow} | jobName: ${jobName} | out: ${out}\n`);
+    return out;
+}
+
+function collectWorkloadValues(jobs_data){
+
+    let jobs = collectServiceNames(jobs_data);
+    let timeWindow = jobs_data.length;
+    let implementWorkOnJob = {};    
+    let resources = 0;
+    // console.log('collect service names: ', jobs);
+    // console.log('quantity of time windows: ', timeWindow);
+
+    for (let jobIndex = 0; jobIndex < jobs.length; jobIndex++){
+        for (let windowIndex = 0; windowIndex <= timeWindow; windowIndex++){
+            resources = totalDemandedResources(jobs_data, windowIndex, jobs[jobIndex]);
+
+            if (false == implementWorkOnJob.hasOwnProperty(jobs[jobIndex])){
+                implementWorkOnJob[jobs[jobIndex]] = [resources];
+            }
+            else{
+                implementWorkOnJob[jobs[jobIndex]].push(resources);
+            }
+        }
+        implementWorkOnJob[jobs[jobIndex]] = sum(implementWorkOnJob[jobs[jobIndex]])
+        // console.log(
+        //     `Work demanded at job "${jobs[jobIndex]}" after "${timeWindow}" time windows: `, 
+        //     implementWorkOnJob[jobs[jobIndex]]
+        // );
+    }
+        
+    return implementWorkOnJob;
+}
+
+// Set the technology service concepts using the "work" given the resources
+function setWorkLoad(jobs_data){
+    // if not jobs_data return an error message
+
+    let work = collectWorkloadValues(jobs_data);
+
+    $('element').forEach(item => {
+        if ('technology-service' == item.type && true == work.hasOwnProperty(item.name)){
+            // console.log(`node "${item.name}" set work: ${work[item.name]}`);
+            item.prop('w', work[item.name]);
+        }
+    });
+
+    return undefined;
+}
+
+function getNodesWithAlterWoks(jobs_data){
+    let work = collectWorkloadValues(jobs_data);
+    let out = [];
+
+    $('element').forEach(item => {
+        if ('technology-service' == item.type && true == work.hasOwnProperty(item.name)){
+            out.push(item);
+        }
+    });
+
+    return out;
+}

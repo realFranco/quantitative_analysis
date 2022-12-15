@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TEG | Franco Gil</title>
+  
+    <link
+      href="css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+
+    <link
+      href="css/filepond.css"
+      rel="stylesheet"
+      integrity="sha512-OwkTbucz29JjQUeii4ZRkjY/E+Xdg4AfffPZICCf98rYKWIHxX87AwwuIQ73rbVrev8goqrKmaXyu+VxyDqr1A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <script src="js/ag-grid-community.min.js"></script>
+
+    <!-- Load d3.js -->
+    <script src="js/d3.v4.js"></script>
+
+    <style>
+      .ag-header-cell-label {
+        place-content: center;
+      }
+    </style>
+
+  </head>
+
+  <body class="vh-100 d-flex flex-column">
+    <nav class="navbar bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand text-truncate" href="/">
+          <img
+            src="images/modal/willow.png"
+            height="30"
+            alt="Willow"
+          />
+          Rendimiento sobre Arquitecturas Empresariales
+        </a>
+      </div>
+    </nav>
+
+    <!-- Alerts -->
+    <div 
+      id="liveAlertPlaceholder"
+      style="align-self: self-end; margin-top: 10px; margin-right: 10px;"
+    ></div>
+
+    <!-- Main interactions -->
+    <main class="container flex-fill py-3">
+      <div class="row g-3">
+
+        <!-- Archi resources -->
+        <div class="col-lg">
+          <div class="card h-100 text-center">
+            <div
+              style="height: 8rem"
+              class="card-img-top d-flex justify-content-center align-items-center"
+            >
+              <img
+                src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNzUycHQiIGhlaWdodD0iNzUycHQiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDc1MiA3NTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiA8cGF0aCBkPSJtNTQ2LjU1IDMwNC41Ny0wLjAwMzkwNi0wLjAwMzkwNi04Ni4wMTYtOTEuMjM0Yy0wLjAxNTYyNS0wLjAxNTYyNS0wLjAyMzQzOC0wLjAyNzM0My0wLjAzOTA2My0wLjA0Mjk2OWwtMS4zMTI1LTEuMzkwNmgtMi4wNDNjLTAuMDE1NjI0IDAtMC4wMjczNDMtMC4wMDc4MTMtMC4wNDY4NzQtMC4wMDc4MTMtMC4wMTk1MzIgMC0wLjAyNzM0NCAwLjAwNzgxMy0wLjA0Njg3NiAwLjAwNzgxM2wtMTE1LjkyLTAuMDAzOTA3Yy0xMi4xOTUgMC0yMi42OTkgNi44ODI4LTI4LjE4NCAxNi44ODdsLTg2LjUzMSAwLjAwMzkwNmMtMTcuNzgxIDAtMzIuMjU0IDE0LjQ2OS0zMi4yNTQgMzIuMjQ2IDAgMC4xNzU3OCAwLjA4MjAzMSAwLjMyODEyIDAuMDk3NjU2IDAuNDk2MDktNS45MTAyIDUuODQ3Ny05LjU4NTkgMTMuOTQ1LTkuNTg1OSAyMi44OTh2MjQ3LjZjMCAxNy43NzcgMTQuNDczIDMyLjI0NiAzMi4yNTQgMzIuMjQ2aDE3NC41OWMxNy43ODkgMCAzMi4yNTQtMTQuNDczIDMyLjI1NC0zMi4yNDZ2LTguMDM1Mmg5MS45NDFjMTcuNzg5IDAgMzIuMjU0LTE0LjQ2OSAzMi4yNTQtMzIuMjQ2bDAuMDAzOTA2LTE4NS42OHptLTg0LjYyNS03NS42NiA2OS45OTYgNzQuMjM0aC00Ny40MWMtMTIuNDQ5IDAtMjIuNTg2LTEwLjEzMy0yMi41ODYtMjIuNTg2em0tMjM1LjUyIDkuNTUwOGg4My4wMzFjLTAuMzMyMDMgMS44NTU1LTAuNTc4MTIgMy43NDYxLTAuNTc4MTIgNS42OTUzdjguMDE5NWgtOTEuOTM0Yy00LjI2MTcgMC04LjMxMjUgMC44NzUtMTIuMDM5IDIuMzgyOCAyLjgwNDctOS4yODUyIDExLjM0LTE2LjA5OCAyMS41Mi0xNi4wOTh6bTE4Ny42OCAyOTMuNTZjMCAxMi40NDktMTAuMTMzIDIyLjU3NC0yMi41ODYgMjIuNTc0aC0xNzQuNThjLTEyLjQ0OSAwLTIyLjU4Ni0xMC4xMjUtMjIuNTg2LTIyLjU3NHYtMjQ3LjU5YzAtMTIuNDQ5IDEwLjEzMy0yMi41ODYgMjIuNTg2LTIyLjU4NmgxNzQuNTljMTIuNDQ5IDAgMjIuNTg2IDEwLjEzMyAyMi41ODYgMjIuNTg2djI0Ny41OXptLTIyLjU3OC0yNzkuODVoLTcyLjk3N3YtOC4wMTk1YzAtMTIuNDQ5IDEwLjEzMy0yMi41ODYgMjIuNTg2LTIyLjU4NmgxMTEuMTN2NDQuMDloLTM0LjYxN2MtNS44NjMzLTguMTMyOC0xNS4zNTItMTMuNDg0LTI2LjEyMS0xMy40ODR6bTMwLjc4NSAyMy4xNTZoMjkuOTUzdjUuMjM0NGMwIDQuOTA2MiAxLjE4NzUgOS41MDc4IDMuMTUyMyAxMy42NzZoLTMxLjY0MXYtOS44MTI1YzAuMDAzOTA2LTMuMTgzNi0wLjYwMTU2LTYuMTk1My0xLjQ2NDgtOS4wOTc3em0xMTUuOTkgMjE2LjQxYzAgMTIuNDQ5LTEwLjEzMyAyMi41NzQtMjIuNTg2IDIyLjU3NGwtOTEuOTM4IDAuMDAzOTA2di0zOC45MjJoNzYuMzQ4YzIuNjcxOSAwIDQuODM1OS0yLjE2NDEgNC44MzU5LTQuODM1OXMtMi4xNjQxLTQuODM1OS00LjgzNTktNC44MzU5aC03Ni4zNDh2LTE4LjkxaDc2LjM0OGMyLjY3MTkgMCA0LjgzNTktMi4xNjQxIDQuODM1OS00LjgzNTkgMC0yLjY3MTktMi4xNjQxLTQuODM1OS00LjgzNTktNC44MzU5aC03Ni4zNDh2LTE4LjkxaDc2LjM0OGMyLjY3MTkgMCA0LjgzNTktMi4xNjQxIDQuODM1OS00LjgzNTlzLTIuMTY0MS00LjgzNTktNC44MzU5LTQuODM1OWgtNzYuMzQ4di0xOC45MDJoNzYuMzQ4YzIuNjcxOSAwIDQuODM1OS0yLjE2NDEgNC44MzU5LTQuODM1OSAwLTIuNjcxOS0yLjE2NDEtNC44MzU5LTQuODM1OS00LjgzNTlsLTc2LjM0OCAwLjAwMzkwNnYtMTguOTFoNzYuMzQ4YzIuNjcxOSAwIDQuODM1OS0yLjE2NDEgNC44MzU5LTQuODM1OSAwLTIuNjcxOS0yLjE2NDEtNC44MzU5LTQuODM1OS00LjgzNTlsLTc2LjM0OCAwLjAwMzkwNnYtMTguOTFoNzYuMzQ4YzIuNjcxOSAwIDQuODM1OS0yLjE2NDEgNC44MzU5LTQuODM1OSAwLTIuNjcxOS0yLjE2NDEtNC44MzU5LTQuODM1OS00LjgzNTloLTc2LjM0OHYtMTguOTFoMzguNjA5YzUuNzgxMiA1LjQ4NDQgMTMuNTUxIDguOTA2MiAyMi4xMjkgOC45MDYyaDUzLjc4MXptLTE4NS45Ni0xNzQuNGgtOTYuMjExYy03LjAzOTEgMC0xMi43NyA1LjcyNjYtMTIuNzcgMTIuNzU4djUyLjI3N2MwIDcuMDM5MSA1LjczNDQgMTIuNzczIDEyLjc3IDEyLjc3M2g5Ni4yMTFjNy4wMzkxIDAgMTIuNzU4LTUuNzM0NCAxMi43NTgtMTIuNzczdi01Mi4yNzNjMC03LjAzOTEtNS43MjI3LTEyLjc2Mi0xMi43NTgtMTIuNzYyem0zLjA4NTkgNjUuMDM5YzAgMS43MTA5LTEuMzg2NyAzLjA5NzctMy4wODU5IDMuMDk3N2gtOTYuMjExYy0xLjcxMDkgMC0zLjA5NzctMS4zODY3LTMuMDk3Ny0zLjA5Nzd2LTUyLjI3N2MwLTEuNjk5MiAxLjM4NjctMy4wODU5IDMuMDk3Ny0zLjA4NTlsOTYuMjExLTAuMDAzOTA3YzEuNjk5MiAwIDMuMDg1OSAxLjM4NjcgMy4wODU5IDMuMDg1OXoiLz4KPC9zdmc+Cg=="
+                alt="Papers"
+                style="width: 8rem"
+              />
+            </div>
+            <div class="card-body d-flex flex-column align-items-center">
+              <h5 class="card-title">Seleccionar recursos de entrada</h5>
+              <p class="card-text">
+                Agregar recursos útiles para configurar la ejecución de la
+                herramienta de diseño Archi.
+              </p>
+              <span class="flex-fill"></span>
+              <button
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#selectInputResourcesModal"
+                class="btn btn-primary"
+              >
+                Buscar archivos de entrada
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Instance Archi tool -->
+        <div class="col-lg">
+          <div class="card h-100 text-center">
+            <div
+              style="height: 8rem"
+              class="card-img-top d-flex justify-content-center align-items-center"
+            >
+              <img
+                style="width: 12rem"
+                src="images/modal/archiHeader.png"
+                class="card-img-top"
+                alt="Archi logo"
+              />
+            </div>
+            <div class="card-body d-flex flex-column align-items-center">
+              <h5 class="card-title">Instanciar herramienta Archi</h5>
+              <p class="card-text">
+                Ejecutar herramienta de diseño Archi.
+              </p>
+              <span class="flex-fill"></span>
+              <button 
+                id="executeArchiExternal"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#executeArchiResourcesModal"
+                class="btn btn-primary"
+              >
+                Ejecutar Archi
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expose results -->
+        <div class="col-lg">
+          <div class="card h-100 text-center">
+            <div
+              style="height: 8rem"
+              class="card-img-top d-flex justify-content-center align-items-center"
+            >
+              <img
+                style="width: 4rem"
+                src="images/modal/chartResultsIcon.png"
+                class="card-img-top"
+                alt="Resultados"
+              />
+            </div>
+
+            <div class="card-body d-flex flex-column align-items-center">
+              <h5 class="card-title">Mostrar resultados</h5>
+              <p class="card-text">
+                Renderizar elementos del diagrama junto a sus valores
+                cuantitavos luego de aplicar simulaciones.
+              </p>
+              <span class="flex-fill"></span>
+
+              <!-- Make a group button, one to show and the other one for reload the check. -->
+              <!-- The check will determine if the button it's now enable based on previous simulation results. -->
+              <div 
+                class="btn-group" 
+                role="group"
+              >
+                <button 
+                  id="executeExposeResultModalButton"
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-target="#executeExposeResultModal"
+                  onclick="exposeResultGrid();"
+                  disabled
+                >
+                  Mostrar resultados
+                </button>
+                <button 
+                  type="button" 
+                  class="btn btn-primary"
+                  onClick="isSimulationsResultsAvailable();"
+                >
+                <svg width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"></path>
+                  <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"></path>
+                </svg>
+                  Recargar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="resultArtifacts"
+      >
+        <!-- Result as heat map -->
+        <div 
+          id="exposeArchiResultsHeatMap"
+          style="display: none;"
+        >
+          <div class="row g-2">
+            <div class="col-lg">
+              <div class="card h-100 text-center">
+                <div class="card-body d-flex flex-column align-items-center">
+                  <h5 class="card-title">Tabla de Resultados | Mapa de Calor</h5>
+                  <p class="card-text">
+                    Cantidad de visitas por cada nodo del diagrama.
+                  </p>
+  
+                  <!-- Create a div where the graph will take place -->
+                  <div id="d3HeatMapResult"></div>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row g-2">
+            <div class="col-lg">
+              <div class="card h-100 text-center">
+                <div class="card-body d-flex flex-column align-items-center">
+                  <h5 class="card-title">Tabla de Resultados | Mapa de Calor - Leyenda</h5>
+                  <p class="card-text">
+                    Leyenda aplicable sobre el Mapa de Calor.
+                    <br><br>
+                    <div
+                      id="archimateTableResultLegendGrid"
+                      style="height: 400px; width:520px;"
+                      class="ag-theme-alpine"
+                    ></div>
+  
+                  </p>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+  
+        <!-- Result as tables -->
+        <div
+          id="exposeArchiResults"
+          style="display: none;"
+        >
+          <div class="row g-2">
+            <!-- Result Table -->
+            <div class="col-lg">  
+              <div class="card h-100 text-center">
+                <div class="card-body d-flex flex-column align-items-center">
+                  <h5 class="card-title">Tabla de Resultados | Tabulado</h5>
+                  <p class="card-text">
+                    Resultados tabulados.
+                  </p>
+                  <div
+                    id="archimateTableResultGrid"
+                    style="height: 600px; width: 850px;"
+                    class="ag-theme-alpine"
+                  ></div>
+                  <div 
+                    class="btn btn-primary exposeArchiResultsExportButton"
+                    onclick="onBtnExport()"
+                    style="margin-top: 20px;"
+                  >
+                  Descargar Resultados
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Historial of simulations table -->
+            <div class="col-lg">
+              <div class="card h-100 text-center">
+                <div class="card-body d-flex flex-column align-items-center">
+                  <h5 class="card-title">Historial de simulaciones</h5>
+                  <p>Listado de simulaciones realizadas.</p>
+  
+                  <div
+                    id="archimateTableSimulation"
+                    style="height: 300px; width: 350px;"
+                    class="ag-theme-alpine"
+                  ></div>
+  
+                  <!-- Grupo de botones -->
+                  <div 
+                    class="btn-group" 
+                    role="group"
+                    aria-label="Toolbar with button groups"
+                    style="margin-top: 20px;"
+                  >
+                    <div 
+                      class="btn btn-primary exposeArchiHistoryCleandButton"
+                      onclick="cleanSimulations()"
+                    >
+                      Limpiar
+                    </div>
+                    <div 
+                      class="btn btn-primary exposeArchiHistoryReloadButton" 
+                      onclick="loadSimulationGrid(true)"
+                    >
+                      <svg  width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"></path>
+                        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"></path>
+                      </svg>
+                      Recargar
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+        </div>
+
+
+
+      </div>
+
+
+    </main>
+    <footer class="container-fluid py-2">
+      <p class="m-0">
+        <img
+          src="images/modal/willow.png"
+          height="30"
+          alt="Willow"
+        />
+        UC | FaCyT - Computación
+      </p>
+    </footer>
+
+    <!-- Modal Resources -->
+
+    <!-- Archi Resources -->
+    <div
+      class="modal fade"
+      id="selectInputResourcesModal"
+      tabindex="-1"
+      aria-labelledby="selectInputResourcesModalTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="selectInputResourcesModalTitle">
+              Seleccionar recursos de entrada
+            </h1>
+            <button
+              id="selectInputResourcesModalCloseButton"
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="selectInputResourcesModalForm" class="">
+              <div>
+                <label
+                  for="selectInputResourcesModalInputResourcesCloudServiceProviderSelect"
+                  class="form-label"
+                >
+                  Logs de servicio en la nube
+                </label>
+                <select
+                  id="selectInputResourcesModalInputResourcesCloudServiceProviderSelect"
+                  class="form-select"
+                  aria-label="Cloud service provider select"
+                  required
+                  name="cloudServiceProvider"
+                >
+                  <option value="">Escoge una opción</option>
+                  <option value="aws">Amazon Web Services</option>
+                </select>
+                <div class="invalid-feedback"></div>
+              </div>
+
+              <div class="mt-3">
+                <label
+                  for="selectInputResourcesModalInputResourcesFilesInput"
+                  class="form-label"
+                >
+                  Archivos de logs
+                </label>
+                <input
+                  name="logFiles"
+                  accept="text/plain"
+                  type="file"
+                  class="form-control"
+                  id="selectInputResourcesModalInputResourcesFilesInput"
+                  multiple
+                  data-allow-reorder="true"
+                  data-max-file-size="3MB"
+                  data-max-files="3"
+                  data-label-idle="Arrastre y suelte sus archivos o <span class='filepond--label-action'> buscar </span>"
+                  data-label-invalid-field="El campo contiene archivos inválidos"
+                  data-label-file-waiting-for-size="Esperando el tamaño"
+                  data-label-file-size-not-available="Tamaño no disponible"
+                  data-label-file-loading="Cargando"
+                  data-label-file-load-error="Error durante la carga"
+                  data-label-file-processing="Subiendo"
+                  data-label-file-processing-complete="Carga completa"
+                  data-label-file-processing-aborted="Carga cancelada"
+                  data-label-file-processing-error="Error durante la carga"
+                  data-label-file-processing-revert-error="Error al revertir el proceso"
+                  data-label-file-remove-error="Error durante la eliminación"
+                  data-label-tap-to-cancel="pulse para cancelar"
+                  data-label-tap-to-retry="pulse para reintentar"
+                  data-label-tap-to-undo="pulse para deshacer"
+                  data-label-button-remove-item="Eliminar"
+                  data-label-button-abort-item-load="Cancelar"
+                  data-label-button-retry-item-load="Reintentar"
+                  data-label-button-abort-item-processing="Cancelar"
+                  data-label-button-undo-item-processing="Deshacer"
+                  data-label-button-retry-item-processing="Reintentar"
+                  data-label-button-process-item="Cargar"
+                />
+                <div class="invalid-feedback"></div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              id="selectInputResourcesModalCancelButton"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="selectInputResourcesModalUploadFilesButton"
+            >
+              Cargar archivos
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instance Archi tool & Carousel -->
+    <div
+      class="modal fade"
+      id="executeArchiResourcesModal"
+      tabindex="-1"
+      aria-labelledby="executeArchiResourcesModalTitle"
+      aria-hidden="true"
+      style="padding-right: 550px;"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content" style="width: 1080px;">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="executeArchiResourcesModalTitle">
+              Seleccionar recursos de entrada
+            </h1>
+            <button
+              id="executeArchiResourcesModalCloseButton"
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            
+            <!-- Enable tutorial -->
+            <div id="executeArchiResourcesModalTutorialActive">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="executeArchiResourcesModalTutorialActiveButton" checked>
+                <label class="form-check-label" for="executeArchiResourcesModalTutorialActiveButton">Activar tutorial</label>
+              </div>
+            </div>
+
+            <!-- Carousel -->
+            <div id="executeArchiResourcesModalTutorial">
+              <p> Secuencia de imágenes para conocer cómo ejecutar simulaciones </p>
+  
+              <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+                <div class="carousel-indicators">
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="6" aria-label="Slide 7"></button>
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="7" aria-label="Slide 8"></button>
+                </div>
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="images/archi_app_tutorial_interface_esp/carroussel Franco-01.png" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>Portada de Archi</h5>
+                      <p>Archi: aplicación útil para diseñar Arquitecturas Empresariales a través del lenguaje y framework Archimate.</p>
+                    </div>
+                  </div>
+  
+                  <div class="carousel-item">
+                    <img src="images/archi_app_tutorial_interface_esp/carroussel Franco-02.png" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>Archi: Abrir un diagrama</h5>
+                      <p>Una vez abierta la aplicación Archi, ir a la sección "File" o "Archivo" y dar click para desplegar las opciones.</p>
+                    </div>
+                  </div>
+                  
+                  <div class="carousel-item">
+                    <img src="images/archi_app_tutorial_interface_esp/carroussel Franco-03.png" class="d-block w-100" alt="..."
+                    >
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>Archi: Abrir un diagrama - Selección</h5>
+                      <p>Buscar en los directorios del sistema un archivo con extension ".archimate" quien será el diagrama con el cual interactuar.</p>
+                    </div>
+                  </div>
+  
+                  <div class="carousel-item">
+                    <img src="images/archi_app_tutorial_interface_esp/carroussel Franco-04.png" class="d-block w-100" alt="..."
+                    >
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>Archi: Desplegar arbol de elementos</h5>
+                      <p>En la sección izquierda de la aplicación se puede observar un arbol de recursos, seleccionar el contenido dentro "Views" o "Vistas".</p>
+                    </div>
+                  </div>
+  
+                  <div class="carousel-item">
+                    <img src="images/archi_app_tutorial_interface_esp/carroussel Franco-05.png" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>Archi: Mostrar diagrama en la interfaz</h5>
+                      <p>Al seleccionar el elemento "Default View" o "Vista por Defecto" se mostrará el diagrama del proyecto dibujado con conceptos del lenguaje y framework Archimate.</p>
+                    </div>
+                  </div>
+  
+                  <div class="carousel-item">
+                    <img src="images/archi_app_tutorial_interface_esp/carroussel Franco-06.png" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>Archi: Ejecución del script de Análisis Cuantitativo sobre Arquitecturas Empresariales</h5>
+                      <p>Una vez el diagrama se muestre dentro del área de dibujado dar click derecho con el mouse y seleccionar "Scripts -> scripts".</p>
+                    </div>
+                  </div>
+
+                  <div class="carousel-item">
+                    <img src="images/archi_app_tutorial_interface_esp/carroussel Franco-07.png" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>Archi: Seleccionar archivo de configuracion de la herramienta jArchi</h5>
+                      <p>Ubicar el directorio del proyecto, luego ir al directorio "resources" y seleccionar el archivo "jArchiConfigResources.json".</p>
+                    </div>
+                  </div>
+
+                  <div class="carousel-item">
+                    <img src="images/archi_app_tutorial_interface_esp/carroussel Franco-08.png" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>Archi: Mensaje del script luego de su ejecución</h5>
+                      <p>Una vez el script de jArchi destinado para la simulación de rendimiento culmine, mostrará mensajes de información en la consola.</p>
+                    </div>
+                  </div>
+  
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+  
+            </div>
+
+            <br>
+            <!-- Project select input -->
+            <div id="executeArchiResourcesModalProjectSelect">
+              <label for="inputArchiDiagram" class="form-label">
+                Seleccionar diagrama Archimate
+              </label>
+
+              <select id="inputArchiDiagram" class="form-select" required>
+                <!-- The `option` are returned from an Rest Api endpoint -->                
+              </select>
+            </div>
+
+            <br>
+            <!-- Entry point input -->
+            <div id="executeArchiResourcesModalEntryPoint">
+              <label for="inputArchiConcept" class="form-label">
+                Seleccionar el objeto inicial para iniciar la simulación
+              </label>
+  
+              <select id="inputArchiConcept" class="form-select" required>
+                <!-- The `option` are returned from an Rest Api endpoint -->                
+              </select>
+              <div class="invalid-feedback"></div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              id="executeArchiResourcesModalCancelButton"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="executeArchiResourcesModalRunButton"
+            >
+              Ejecutar Archi
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="js/bootstrap.bundle.min.js"
+    ></script>
+
+    <script
+      src="js/filepond.min.js"
+    ></script>
+    
+    <script type="module" src="js/index.js"></script>
+    <script src="js/execute-expose-result.js"></script>
+    <!-- Load color palettes -->
+    <script src="js/d3-scale-chromatic.v1.min.js"></script>
+    <script src="js/heat-map.js"></script>
+  </body>
+</html>

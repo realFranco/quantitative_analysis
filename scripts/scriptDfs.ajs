@@ -1,0 +1,126 @@
+/*
+Apply an DFS into the diagram.
+*/
+
+var allElements = $('element');
+console.clear()
+console.log("There are " + $('element').size() + " elements in this model");
+console.log("The name of this model is " + model.name + '\n');
+
+// return an array of zeros
+function zeros(n) {
+    out = Array(n);
+
+    for (i = 0; i < n; i++) {
+        out[i] = 0;
+    }
+
+    return out;
+}
+
+function returnFirstBusinessRole(conceptName) {
+    // console.log("Requesting only business service objects\n");
+    var index = 0;
+
+    var collection = $("business-role")
+
+    while (index < collection.length) {
+        if (collection[index].name === conceptName) {
+            break
+        }
+        index++;
+    }
+
+    // console.log('concept name: ', collection[index].name, collection[index].name === conceptName);
+    return (index < collection.length) ? collection[index] : undefined; 
+}
+
+/**
+ * This function will clean some usefull properties for the relations.
+ * 
+ * w: Peso o costo de la relación (utilizado por el Top Down)
+ * number t_d_w: Top down weight
+ * number b_u_w: Bottom up weight
+ * number t_b_u_w: Temporal bottom up weight
+ */
+function cleanRelations() {
+    // console.log("Cleaning relations");
+    var rels = $("*").rels();
+
+    // console.log("Numnber of relations to be cleaned: ", rels.length);
+    for (var index = 0; index < rels.length; index++) {
+        rels[index].prop("w", 1);
+        rels[index].prop("t_d_w", 0);
+        rels[index].prop("b_u_w", 0);
+        rels[index].prop("t_b_u_w", 0);
+    }
+}
+
+/**
+ * This function will apply default properties through every node,
+ * usefull to run test under Diagrams.
+ * 
+ * t_proc: Tiempo de Procesamiento
+ * t_resp: Tiempo de Respuesta
+ * w: Carga de Trabajo
+ * c: Costo de Procesamiento
+ */
+function cleanNodes() {
+    var elements = $("element");
+
+    for (var index = 0; index < elements.length; index++) {
+        // console.log(elements[index].name, elements[index].type);
+        elements[index].prop("t_proc", 1);
+        elements[index].prop("t_resp", 0);
+        elements[index].prop("w", 1);
+        elements[index].prop("c", 0);
+    }
+}
+
+/**
+ * Definition of the function
+ * @param currentVertex Object
+ * @param path Array
+ * @param currentW Integer: Current edge weight in the call
+ */
+function DFSLight(previousRel, nextRel, currentVertex, path, currentW) {
+    var counter = 0;
+
+    var end_vertex = true;
+    
+    var rels = $("#" + currentVertex.id).rels();
+
+    path.push(currentVertex.name);
+    previousRel = nextRel;
+    for (var index = 0; index < rels.length; index++) {
+        relation = rels[index];
+
+        nextVertex = relation.source.id == currentVertex.id ?
+            relation.target :
+            relation.source;
+
+        // non visited vertex
+        if (path.indexOf(nextVertex.name) == -1) {
+            // Set Top Down weight
+            relation.prop("t_d_w", currentW + 1);
+
+            nextRel = relation;
+
+            DFSLight(previousRel, nextRel, nextVertex, path, currentW + 1);
+            end_vertex = false;
+
+            // El tiempo debe estar en cada nodo, no en la relaciones
+            // El tiempo de cómputo debe estar presente en cada nodo
+            counter = counter + parseInt(nextRel.prop("b_u_w"));
+        }
+    }
+    // Set Bottom Up weight
+    if (previousRel != null) {
+        previousRel.prop("b_u_w",
+            parseInt(previousRel.prop("t_d_w")) + counter
+        );
+    }
+
+    if (end_vertex == true)
+        previousRel.prop("b_u_w", previousRel.prop("t_d_w"));
+}

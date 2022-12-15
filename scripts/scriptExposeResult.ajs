@@ -1,0 +1,101 @@
+/*
+Given an Archi diagram, expose a more readable object.
+
+{
+    name
+    work
+    performance
+    type
+    times_of_visit --> This depends on the "Top Down Algorithm" && `allSteps` list
+}
+
+Este código fuente consulta el directorio de los scripts
+/master/com.archimatetool.script/src/com/archimatetool/script/RunArchiScript.java
+
+De:
+com.archimatetool.script.preferences.IPreferenceConstants
+Constante:
+IPreferenceConstants.PREFS_SCRIPTS_FOLDER)
+
+getPreferenceStore().getString(IPreferenceConstants.PREFS_SCRIPTS_FOLDER
+
+Every route will start from home directory, so the relative path will begin on home,
+the directory "Documents/" need to previously exist on the "home" folder.
+
+Example:
+    relativePath: "Documents/"
+    filename: "archi.elements.json"
+*/
+
+/**
+ * 
+ * @param relativePathFilename string.
+ * 
+ * @param path Array. Usefully to check the occurrence of the node in the current traversal.
+ * 
+ * @returns Array
+ */
+function exportResult(relativePathFilename, path){
+    console.log('Export results.');
+
+    // if (false === relativePathFilename.includes('.json')){
+    //     return [];
+    // }
+
+    var nodes = [];
+    var nodesOccurrence = {};
+
+    path.forEach(node => {
+        if (false === nodesOccurrence.hasOwnProperty(node.name)) {
+            nodesOccurrence[node.name] = 1;
+        } else {
+            nodesOccurrence[node.name] += 1;
+        }
+    });
+
+    $('element').forEach(element => {
+        nodes.push({
+            name: element.name,
+            work: element.prop('w'),
+            cost: element.prop('c'),
+            type: element.type,
+            visited: nodesOccurrence[element.name] || 0
+        })
+    });
+    $.fs.writeFile(`${relativePathFilename}`, JSON.stringify(nodes));
+
+    return nodes;
+}
+
+function composeResultFileName(modelName, initialConcept, projectLocation, defaultResultLocation) {
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function lowerFirstLetter(string) {
+        return string.charAt(0).toLowerCase() + string.slice(1);
+    }
+
+    // Array <string>: word
+    function camelCaseString(word) {    
+        var out = '';
+
+        for(var index = 0; index < word.length; index++) {
+            if (0 < index){
+                out += capitalizeFirstLetter(word[index]);
+            } else if (0 === index) {
+                out += lowerFirstLetter(word[index]);
+            }
+        }
+
+        return out;
+    }
+
+    var internalModelName = camelCaseString(modelName.split('-'));
+    var internalInitialConcept = camelCaseString(initialConcept.split(' '));
+    var internalDefaultResultLocation = defaultResultLocation.split('/');
+
+    var out = `${projectLocation}${internalDefaultResultLocation[0]}/${internalModelName}.${internalInitialConcept}.${internalDefaultResultLocation[1]}`;
+
+    return out;
+}

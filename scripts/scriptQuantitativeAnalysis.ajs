@@ -1,0 +1,130 @@
+/*
+Description: Iacob & Jonkers - Top Down & Bottom Up formal definition
+
+Some reference: https://github.com/archimatetool/archi-scripting-plugin/wiki/jArchi-Collection
+
+Archi: The interpreter, put in nashhorn ES6 to work
+*/
+
+// Import functions
+absolute_path = '/home/diuble-lig/Documents/DEV/q_analysis/scripts/scriptDfs.ajs';
+load(absolute_path);
+
+absolute_path = '/home/diuble-lig/Documents/DEV/q_analysis/scripts/scriptExposeResult.ajs';
+load(absolute_path);
+
+
+function isRoot(nodo){
+    // Determina si el nodo es raíz
+    return $("#"+nodo.id).outRels().length == 0
+}
+
+function isLeaf(nodo){
+    // Determina si el nodo es hoja
+    return nodo.inRels().length < 1
+}
+
+// permite calcular la carga de trabajo del nodo actual, utilizando los padres
+function adjacentW(nodo){
+
+    // Si es raiz del grafo, no utilizar
+    if (isRoot(nodo) == true)
+        return 1;
+
+    // Usar la carga de trabajo que se la ha definido al nodo
+    if (nodo.prop('w_set')){
+        return nodo.prop('w');
+    }
+
+    var rels = $("#"+nodo.id).rels();
+    var workload = 0;
+    for(var index = 0; index < rels.length; index++){
+        if (rels[index].source.id == nodo.id){
+            // solo relaciones donde el "nodo" es fuente
+            workload = workload + rels[index].prop('w') * rels[index].target.prop('w');
+        }
+    }
+    return workload;
+}
+
+// rendimiento de los nodos hijos del nodo actual
+function adjacentC(nodo){
+    var rels = nodo.inRels();
+    var performance = 0;
+
+    // nodo origen
+    for (var index = 0; index < rels.length; index++){
+        // relacion
+        var rel = rels[index];
+
+        // nodo
+        var node_context = rels[index].source;
+
+        // carga del arco
+        var edge_w = rel.prop('w')
+        // rendimiento del nodo
+        var node_c = node_context.prop('c')
+
+        // rendimiento del arco
+        var edge_c = rel.prop('c')
+        // carga del nodo
+        var node_w = node_context.prop('w')
+
+        performance = performance + (edge_w * node_c) + (edge_c * node_w);
+        // console.log('numerator performance: ' + performance);
+
+        // performance = performance * (carga nodo origen / carga nodo iteracion) -> 0.1 relación de carga mínima, explicar
+        multiplication_right_side = (nodo.prop('w') / node_context.prop('w')) < 0.1 ? 0.1 : (nodo.prop('w') / node_context.prop('w'))
+        // console.log('right side of multiplication: ' + multiplication_right_side)
+        performance = performance * multiplication_right_side;
+
+        // console.log('total performance: ' + performance);
+    }
+    return performance;
+}
+
+function topDown(nodo, visitados, visitados2, allSteps){
+    // console.log('nodo: ' + nodo.name)
+    var rels = $("#"+nodo.id).rels();
+    visitados.push(nodo.id);
+    allSteps.push({'id': nodo.id, 'name': nodo.name});
+
+    for(var index = 0; index < rels.length; index++){
+        // Utilizar relaciones que dirijan a capas inferiores
+        if (rels[index].source.id != nodo.id){
+            // collect next vertex
+            var relation = rels[index];
+            nextVertex = relation.source; // Only deep travels
+            
+            // non visited vertex
+            if (visitados.indexOf(nextVertex.id) == -1){
+                adjW = adjacentW(nodo=nextVertex);
+                nextVertex.prop('w', adjW);
+                // console.log(nextVertex.name, ' adjacent work ', adjW);
+                visitados2.push( {'id': nodo.id, 'name': nodo.name} );
+                topDown(nextVertex, visitados, visitados2, allSteps);
+            }
+            else{
+                // Recálculo de las cargas de trabajo sobre nodos ya visitados
+                adjW = adjacentW(nodo=nextVertex);
+                nextVertex.prop('w', adjW);
+                // console.log('rep:', nextVertex.name, ', adjacent w: ', adjW)
+                topDown(nextVertex, visitados, visitados2, allSteps);
+            }
+        }
+    }
+}
+
+function bottomUp(camino){
+    for(var index = 0; index < camino.length; index++){
+        var nodo_context = camino[index]
+        var nodo = $("#"+nodo_context.id);
+        // console.log('nodo: ' + nodo_context.name)
+        if (isLeaf(nodo) == true)
+            continue;
+
+        adjC = adjacentC(nodo);
+        // console.log('cost: ' + adjC)
+        nodo.prop('c', adjC);
+    }
+}

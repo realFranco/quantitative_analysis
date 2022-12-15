@@ -1,0 +1,9 @@
+# Considering the high I/O operations across the next current file, will not be considered for future contributions.
+
+elementsDescriptions.json
+*.csv
+*.test.json
+*.old.*
+*Results.json
+*Resources.json
+*.json.old

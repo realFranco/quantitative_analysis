@@ -1,0 +1,192 @@
+[
+    {
+        "requestId": "6d1aec82-01c6-46e1-ab8b-56f2852d8df3",
+        "code": "",
+        "metrics": {
+            "function_name": "healthCare-notificationService",
+            "cpu_user_time": 56160,
+            "cpu_system_time": 21840,
+            "cpu_total_time": 78000,
+            "memory_utilization": 74,
+            "tx_bytes": 4055,
+            "rx_bytes": 7209,
+            "total_network": 11264,
+            "tmp_used": 49621155,
+            "tmp_max": 551346176,
+            "_aws": {
+                "Timestamp": 1666019303121
+            }
+        }
+    },
+    {
+        "requestId": "89747472-ff66-4142-904e-c41b2ed497fd",
+        "code": "ECONNRESET",
+        "metrics": {
+            "function_name": "healthCare-notificationService",
+            "cpu_user_time": 56160,
+            "cpu_system_time": 21840,
+            "cpu_total_time": 78000,
+            "memory_utilization": 74,
+            "tx_bytes": 4055,
+            "rx_bytes": 7209,
+            "total_network": 11264,
+            "tmp_used": 49621155,
+            "tmp_max": 551346176,
+            "_aws": {
+                "Timestamp": 1666019303135
+            }
+        }
+    },
+    {
+        "requestId": "fb13201b-e62e-423c-8ea2-6c1c75f7ee53",
+        "code": "ECONNRESET",
+        "metrics": {
+            "function_name": "healthCare-notificationService",
+            "cpu_user_time": 56160,
+            "cpu_system_time": 21840,
+            "cpu_total_time": 78000,
+            "memory_utilization": 74,
+            "tx_bytes": 4055,
+            "rx_bytes": 7209,
+            "total_network": 11264,
+            "tmp_used": 49621155,
+            "tmp_max": 551346176,
+            "_aws": {
+                "Timestamp": 1666019303151
+            }
+        }
+    },
+    {
+        "requestId": "c10cf9be-733f-4ea0-86e7-0f02a213624d",
+        "code": "ECONNRESET",
+        "metrics": {
+            "function_name": "healthCare-notificationService",
+            "cpu_user_time": 56160,
+            "cpu_system_time": 21840,
+            "cpu_total_time": 78000,
+            "memory_utilization": 74,
+            "tx_bytes": 4055,
+            "rx_bytes": 7209,
+            "total_network": 11264,
+            "tmp_used": 49621155,
+            "tmp_max": 551346176,
+            "_aws": {
+                "Timestamp": 1666019303167
+            }
+        }
+    },
+    {
+        "requestId": "6104904b-4359-48fa-b43f-8106a4dab5df",
+        "code": "ECONNRESET",
+        "metrics": {
+            "function_name": "healthCare-notificationService",
+            "cpu_user_time": 56160,
+            "cpu_system_time": 21840,
+            "cpu_total_time": 78000,
+            "memory_utilization": 74,
+            "tx_bytes": 4055,
+            "rx_bytes": 7209,
+            "total_network": 11264,
+            "tmp_used": 49621155,
+            "tmp_max": 551346176,
+            "_aws": {
+                "Timestamp": 1666019303181
+            }
+        }
+    },
+    {
+        "requestId": "c1347830-5f6f-4a44-b204-9edb59e9dfef",
+        "code": "ECONNRESET",
+        "metrics": {
+            "function_name": "healthCare-notificationService",
+            "cpu_user_time": 56160,
+            "cpu_system_time": 21840,
+            "cpu_total_time": 78000,
+            "memory_utilization": 74,
+            "tx_bytes": 4055,
+            "rx_bytes": 7209,
+            "total_network": 11264,
+            "tmp_used": 49621155,
+            "tmp_max": 551346176,
+            "_aws": {
+                "Timestamp": 1666019303198
+            }
+        }
+    },
+    {
+        "requestId": "69648d18-d5d4-4673-9297-e768593c378e",
+        "code": "ECONNRESET",
+        "metrics": {
+            "function_name": "healthCare-notificationService",
+            "cpu_user_time": 56160,
+            "cpu_system_time": 21840,
+            "cpu_total_time": 78000,
+            "memory_utilization": 74,
+            "tx_bytes": 4055,
+            "rx_bytes": 7209,
+            "total_network": 11264,
+            "tmp_used": 49621155,
+            "tmp_max": 551346176,
+            "_aws": {
+                "Timestamp": 1666019303211
+            }
+        }
+    },
+    {
+        "requestId": "51e9fdcc-c2b3-4139-9dcb-6d2327a19b8e",
+        "code": "",
+        "metrics": {
+            "function_name": "healthCare-notificationService",
+            "cpu_user_time": 56160,
+            "cpu_system_time": 21840,
+            "cpu_total_time": 78000,
+            "memory_utilization": 74,
+            "tx_bytes": 4055,
+            "rx_bytes": 7209,
+            "total_network": 11264,
+            "tmp_used": 49621155,
+            "tmp_max": 551346176,
+            "_aws": {
+                "Timestamp": 1666019303227
+            }
+        }
+    },
+    {
+        "requestId": "2594e395-ed4d-45ef-b952-2936e7d188dc",
+        "code": "",
+        "metrics": {
+            "function_name": "healthCare-notificationService",
+            "cpu_user_time": 56160,
+            "cpu_system_time": 21840,
+            "cpu_total_time": 78000,
+            "memory_utilization": 74,
+            "tx_bytes": 4055,
+            "rx_bytes": 7209,
+            "total_network": 11264,
+            "tmp_used": 49621155,
+            "tmp_max": 551346176,
+            "_aws": {
+                "Timestamp": 1666019303242
+            }
+        }
+    },
+    {
+        "requestId": "7eaa4d06-cc83-409f-a04b-4c593e9a9fcf",
+        "code": "ECONNRESET",
+        "metrics": {
+            "function_name": "healthCare-notificationService",
+            "cpu_user_time": 56160,
+            "cpu_system_time": 21840,
+            "cpu_total_time": 78000,
+            "memory_utilization": 74,
+            "tx_bytes": 4055,
+            "rx_bytes": 7209,
+            "total_network": 11264,
+            "tmp_used": 49621155,
+            "tmp_max": 551346176,
+            "_aws": {
+                "Timestamp": 1666019303256
+            }
+        }
+    }
+]

@@ -1,0 +1,111 @@
+/*
+Description: Iacob & Jonkers - Top Down & Bottom Up formal definition
+
+Some reference: https://github.com/archimatetool/archi-scripting-plugin/wiki/jArchi-Collection
+
+Archi: The interpreter, put in Nashhorn ES6 to work
+*/
+
+const RAW_PROJECT_LOCATION = '/home/diuble-lig/Documents/DEV/q_analysis/';
+
+// {readJson}
+load(RAW_PROJECT_LOCATION + 'scripts/scriptReadJson.ajs');
+
+// {topDown, topDown}
+load(RAW_PROJECT_LOCATION + 'scripts/scriptQuantitativeAnalysis.ajs');
+
+// {setWorkLoad, getNodesWithAlterWoks}
+load(RAW_PROJECT_LOCATION + 'scripts/scriptSetWorkloadIntoDiagram.ajs');
+
+// { exportResult, composeResultFileName }
+load(RAW_PROJECT_LOCATION + 'scripts/scriptExposeResult.ajs');
+
+function validateConfigFile() {
+    // If the json file location it's passed, there's not necessary to open a window to browse for the config file.
+    var config = readJson(RAW_PROJECT_LOCATION + 'resources/jArchiConfigResources.json');
+
+    if (false == config.hasOwnProperty('PROJECT_LOCATION')){
+        console.log('The env. var. `PROJECT_LOCATION` not exist.')
+        return undefined;
+    }
+
+    if (false == config.hasOwnProperty('COMPUTE_RESOURCE_LOCATION')){
+        console.log('The env. var. `COMPUTE_RESOURCE_LOCATION` not exist.')
+        return undefined;
+    }
+
+    if (false == config.hasOwnProperty('QUANTITATIVE_ANALYSIS_RESULT_LOCATION')){
+        console.log('The env. var. `QUANTITATIVE_ANALYSIS_RESULT_LOCATION` not exist.')
+        return undefined;
+    }
+
+    if (false == config.hasOwnProperty('QUANTITATIVE_ANALYSIS_INITIAL_CONCEPT')){
+        console.log('The env. var. `QUANTITATIVE_ANALYSIS_INITIAL_CONCEPT` not exist.')
+        return undefined;
+    }
+
+    if (false == config.hasOwnProperty('QUANTITATIVE_ANALYSIS_INITIAL_CONCEPT_NORMALIZED')){
+        console.log('The env. var. `QUANTITATIVE_ANALYSIS_INITIAL_CONCEPT_NORMALIZED` not exist.')
+        return undefined;
+    }
+
+    console.log('Configuration file load correctly!');
+
+    return config;
+}
+
+function main() {
+
+    // If the config file is not the correct one, return error messages.
+    var config = validateConfigFile();
+    if (undefined == config){
+        console.log('`config` object is undefined, the analysis was stopped.');
+        return undefined;
+    }
+
+    cleanRelations();
+    cleanNodes();
+
+    var camino = [];
+    var camino2 = []; // {id, name}
+    var allSteps = [];
+
+    var nodoInicio = returnFirstBusinessRole(config.QUANTITATIVE_ANALYSIS_INITIAL_CONCEPT);
+    console.log('Initial node: ' + nodoInicio.name);
+    
+    camino2.push({'id': nodoInicio.id, 'name': nodoInicio.name});
+    // console.log('nodo inicio: ', nodoInicio);
+    topDown(nodoInicio, camino, camino2, allSteps);
+
+    // Aplicar cargas de trabajo computadas desde recursos externos
+    var jobs_data = readJson(`${config.PROJECT_LOCATION}${config.COMPUTE_RESOURCE_LOCATION}`);
+    if (undefined == jobs_data) { 
+        console.log('`jobs_data` is undefined, the analysis was stopped.');
+        return undefined;
+    }
+
+    // console.log('jobs_data ', jobs_data);
+    setWorkLoad(jobs_data);
+
+    // Ejecutar top down sobre los nodos editados y sus herederos
+    getNodesWithAlterWoks(jobs_data).forEach((nodo) => {
+        topDown(nodo, [], [], []);
+    });
+
+    allSteps.reverse();
+    bottomUp(allSteps);
+
+    var resultFileName = composeResultFileName(
+        model.name,
+        config.QUANTITATIVE_ANALYSIS_INITIAL_CONCEPT_NORMALIZED,
+        config.PROJECT_LOCATION,
+        config.QUANTITATIVE_ANALYSIS_RESULT_LOCATION
+    );
+
+    exportResult(resultFileName, allSteps);
+    console.log('Quantitative Analysis ends!');
+
+    return undefined;
+}
+
+main();

@@ -1,0 +1,4 @@
+# Development resources to be ignored.
+
+/venv/
+.env

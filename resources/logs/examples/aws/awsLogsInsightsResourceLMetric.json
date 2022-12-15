@@ -1,0 +1,87 @@
+{
+    "@timestamp": "2022-10-14 15:21:58.086",
+    "@message": {
+        "cpu_total_time": 90,
+        "cpu_system_time": 60,
+        "total_memory": 128,
+        "used_memory_max": 79,
+        "tmp_free": 538329088,
+        "_aws": {
+            "CloudWatchMetrics": [
+                {
+                    "Namespace": "LambdaInsights",
+                    "Dimensions": [
+                        [
+                            "function_name"
+                        ]
+                    ],
+                    "Metrics": [
+                        {
+                            "Name": "memory_utilization",
+                            "Unit": "Percent"
+                        },
+                        {
+                            "Name": "total_memory",
+                            "Unit": "Megabytes"
+                        },
+                        {
+                            "Name": "used_memory_max",
+                            "Unit": "Megabytes"
+                        },
+                        {
+                            "Name": "init_duration",
+                            "Unit": "Milliseconds"
+                        },
+                        {
+                            "Name": "cpu_total_time",
+                            "Unit": "Milliseconds"
+                        },
+                        {
+                            "Name": "tx_bytes",
+                            "Unit": "Bytes"
+                        },
+                        {
+                            "Name": "rx_bytes",
+                            "Unit": "Bytes"
+                        },
+                        {
+                            "Name": "total_network",
+                            "Unit": "Bytes"
+                        },
+                        {
+                            "Name": "tmp_used",
+                            "Unit": "Bytes"
+                        }
+                    ]
+                }
+            ],
+            "Timestamp": 1665760521225,
+            "LambdaInsights": {
+                "ShareTelemetry": true
+            }
+        },
+        "tx_bytes": 1489,
+        "duration": 757,
+        "trace_id": "1-44865d08-0c5498732683232168",
+        "tmp_max": 551346176,
+        "cold_start": true,
+        "agent_version": "1.0.143.0",
+        "event_type": "performance",
+        "billed_mb_ms": 97024,
+        "cpu_user_time": 30,
+        "total_network": 8408,
+        "memory_utilization": 61,
+        "billed_duration": 758,
+        "agent_memory_max": 9,
+        "init_duration": 380,
+        "agent_memory_avg": 9,
+        "threads_max": 11,
+        "fd_max": 1024,
+        "tmp_used": 13017088,
+        "function_name": "lambdaMyFubction",
+        "fd_use": 21,
+        "request_id": "f8546532-1qw4-as4w-a8d5-251684a1sd",
+        "rx_bytes": 6919
+    },
+    "@logStream": "lambdaMyFubction/noCG698fFqnoFoeYrtHb8RTbZ"
+}

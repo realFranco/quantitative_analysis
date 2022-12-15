@@ -1,0 +1,33 @@
+/*
+read json externally json files
+*/
+
+// Funcionalidad para importar archivos json externos
+function readJson(filePath){
+    var filePath = undefined == filePath 
+        ? window.promptOpenFile(
+            { 
+                title: "Quantitative Analysis for Cloud Architectures | Open Config file",
+                filterExtensions: ["*.json"],
+                fileName: "default.archimate"
+            }
+        ) 
+        : filePath;
+
+    if (filePath){
+        var FileReader = Java.type("java.io.FileReader");
+        var thejsonFile = new FileReader(filePath);
+        var thejson ="";
+        var data = thejsonFile.read();
+        while(data != -1) {
+            var theCharacter = String.fromCharCode(data);
+            thejson+=theCharacter;
+            data = thejsonFile.read();
+        }
+        thejsonFile.close();
+        // console.log("> File Loaded");
+        // console.log("> File Parced");
+        thejson = JSON.parse(thejson);
+        return thejson;
+    }
+}
