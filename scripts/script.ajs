@@ -6,7 +6,7 @@ Some reference: https://github.com/archimatetool/archi-scripting-plugin/wiki/jAr
 Archi: The interpreter, put in Nashhorn ES6 to work
 */
 
-const RAW_PROJECT_LOCATION = '/home/diuble-lig/Documents/DEV/q_analysis/';
+const RAW_PROJECT_LOCATION = '/home/diuble-lig/Documents/DEV/quantitative_analysis/';
 
 // {readJson}
 load(RAW_PROJECT_LOCATION + 'scripts/scriptReadJson.ajs');

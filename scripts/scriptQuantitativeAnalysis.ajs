@@ -7,12 +7,9 @@ Archi: The interpreter, put in nashhorn ES6 to work
 */
 
 // Import functions
-absolute_path = '/home/diuble-lig/Documents/DEV/q_analysis/scripts/scriptDfs.ajs';
-load(absolute_path);
-
-absolute_path = '/home/diuble-lig/Documents/DEV/q_analysis/scripts/scriptExposeResult.ajs';
-load(absolute_path);
-
+// The constant `RAW_PROJECT_LOCATION` it's already defined at the `scripts/scripts.ajs` file.
+load(RAW_PROJECT_LOCATION + 'scripts/scriptDfs.ajs');
+load(RAW_PROJECT_LOCATION + 'scripts/scriptExposeResult.ajs');
 
 function isRoot(nodo){
     // Determina si el nodo es raíz
