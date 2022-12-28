@@ -49,15 +49,15 @@ Como paso inicial se debe descargar la aplicacion Archi 4.10.0, de momento estar
 
 > https://www.archimatetool.com/download/
 
-![archi.1.png](resources/doc_images/archi.1.png)
+![archi.1.png](../resources/doc_images/archi.1.png)
 
-![archi.2.png](resources/doc_images/archi.2.png)
+![archi.2.png](../resources/doc_images/archi.2.png)
 
 En caso de que la versión de Archi 4.10.0 no sea la versión estable más reciente, esta también se podrá encontrar aqui:
 
 > https://www.archimatetool.com/archive/
 
-![archi.4.png](resources/doc_images/archi.4.png)
+![archi.4.png](../resources/doc_images/archi.4.png)
 
 Una vez descargada la herramienta se procederá con la extracción de los recursos.
 
@@ -72,11 +72,11 @@ Una vez instalado el plug-in jArchi dentro de la herramienta Archi se procederá
 
 Ejecutar el archivo "Archi".
 
-![archi.6.png](resources/doc_images/archi.6.png)
+![archi.6.png](../resources/doc_images/archi.6.png)
 
 La primera vez que se ejecute la aplicación Archi, esta aparecerá con la siguiente interfaz de bienvenida:
 
-![archi.7.png](resources/doc_images/archi.7.png)
+![archi.7.png](../resources/doc_images/archi.7.png)
 
 En este punto, se debe instalar el plug-in jArchi, continuar con las siguientes secciones.
 
@@ -95,7 +95,7 @@ packages ya disponibles para su integración con la aplicación Archi.
 
 > https://drive.google.com/file/d/1v04bh5Kk-dz6Qgv5KBOV3sYaAlPAt8nQ
 
-![jarchi.1.png](resources/doc_images/jarchi.1.png)
+![jarchi.1.png](../resources/doc_images/jarchi.1.png)
 
 ### Instalar plug-in jArchi
 ----
@@ -104,15 +104,15 @@ Para instalar el plug-in jArchi, la aplicación Archi ya debe estar instalada y 
 
 Seleccionar la opción `Help -> Manage Plug-ins`
 
-![archi.8.png](resources/doc_images/archi.8.png)
+![archi.8.png](../resources/doc_images/archi.8.png)
 
-![archi.9.png](resources/doc_images/archi.9.png)
+![archi.9.png](../resources/doc_images/archi.9.png)
 
 A continuación, se selecciona la opción `Install New`
 
 En la ventana para explorar directorios, buscar el archivo comprimido con extensión `.zip` o `.archimate` descargado en la sección [Descargar plug-in jArchi](#descargar-plug-in-jarchi).
 
-![archi.10.png](resources/doc_images/archi.10.png)
+![archi.10.png](../resources/doc_images/archi.10.png)
 
 Seleccionar el archivo y dar click en `Open`.
 
@@ -135,7 +135,7 @@ Una vez que la aplicacion Archi vuelva a instanciarse, seleccionar la opción de
 
 Repetir el flujo `Help -> Manage Plug-ins` y observar si el plugin está instalado.
 
-![archi.13.png](resources/doc_images/archi.13.png)
+![archi.13.png](../resources/doc_images/archi.13.png)
 
 ### Configurar plug-in jArchi
 ----
@@ -147,14 +147,14 @@ Con el objetivo de ejecutar los scripts escritos para el plugin de forma esperad
     - Seleccionar la opción `Scrpting`
     - En el input `JavaScript Engine` seleccionar `Nashhorn ES6 (deprecated)`
     - Click en `Apply and Close`
-        ![archi.15.png](resources/doc_images/archi.15.png)
+        ![archi.15.png](../resources/doc_images/archi.15.png)
   - Indicar la ruta de scripts desde donde se ejecutarán.
     - Dirigirse a `Edit -> Preferences`
     - Seleccionar la opción `Scrpting`
     - En el input `Scripts Folder` dar click en el botón `Choose`
-        ![archi.16.png](resources/doc_images/archi.16.png)
+        ![archi.16.png](../resources/doc_images/archi.16.png)
     - Se abrirá un explorador de directorios, seleccionar el directorio `scripts/` del proyecto `quantitative_analysis` y luego click en `Open`
-        ![archi.17.png](resources/doc_images/archi.17.png)
+        ![archi.17.png](../resources/doc_images/archi.17.png)
     - En la ventana de `Preferences` dar clcick en `Apply and Close` para confirmar cambios
 
 En este punto ya se podrá descargar el Servicio Web que contiene interfaces para ejecutar la aplicación de manera más
@@ -173,7 +173,7 @@ El proyecto `quantitative_analysis` contiene elementos para desplegar el "Servic
 El proyecto al estar hosteado desde la herramienta para versionado de código fuente `GitHub` posee varias maneras de descargar
 proyectos. Esta vez descargaremos el proyecto desde la terminal (Shell).
 
-![web.1.png](resources/doc_images/web.1.png)
+![web.1.png](../resources/doc_images/web.1.png)
 
 ```shell
 git clone git@github.com:realFranco/quantitative_analysis.git
@@ -207,7 +207,7 @@ Para ejecutar de manera correcta el servicio, son necesarios algunos recursos:
  - Diagrama Archimate válido para la aplicación Archi. Un diagrama de Archi puede exportarse desde la opción
  `File -> Save As`, este diagrama y los necesarios deberán copiarse en el directorio `resources/archi_diagram_example/`
 
-    ![web.2.png](resources/doc_images/web.2.png)
+    ![web.2.png](../resources/doc_images/web.2.png)
 
  - Logs de Amazon Web Services (AWS) CloudWatch. Está fuera del alcance de está guía cómo configurar una arquitectura en
  AWS que generen métricas de logs sobre el servicio AWS CloudWatch Insights, se agregará una imagen que refleje un poco
@@ -216,7 +216,7 @@ Para ejecutar de manera correcta el servicio, son necesarios algunos recursos:
 La siguiente sintaxis es un lenguaje particular de AWS CloudWatch Insights que permitirá consultar y filtrar logs dentro
 del servicio.
 
-![aws.3.png](resources/doc_images/aws.3.png)
+![aws.3.png](../resources/doc_images/aws.3.png)
 
 Consulta para recolectar métricas de cómputo:
 
@@ -234,7 +234,7 @@ fields @requestId,code
 Las consultas previa generarán logs y estos deberán ser exportados en formato `.json`, almacenar estos
 dos archivos ya que serán útiles en flujos posteriores del Servicio Web.
 
-![aws.2.png](resources/doc_images/aws.2.png)
+![aws.2.png](../resources/doc_images/aws.2.png)
 
 Para ampliar las referencia sobre la sintáxis de consulta de AWS CloudWatch Insights observar los siguientes enlaces:
 
@@ -249,7 +249,7 @@ Los siguientes pasos van a permitir ejecutar el Servicio Web:
  - En la sección [Crear un entorno virtual e instalar dependencias](#crear-un-entorno-virtual-e-instalar-dependencias) 
  ya se tenía un terminal (Shell) disponible, volver a utilizarlo o bien utilizar uno nuevo.
 
-    ![web.3.png](resources/doc_images/web.3.png)
+    ![web.3.png](../resources/doc_images/web.3.png)
 
  - Generar las variables de entorno:
 
@@ -302,9 +302,9 @@ Los siguientes pasos van a permitir ejecutar el Servicio Web:
  `http://127.0.0.1:8000` (siempre y cuando las variables de entorno definidas en `.env` se mantengan por defecto) dar
  click en ella para mostrar la interfaz del Servicio Web.
 
-![web.4.png](resources/doc_images/web.4.png)
+![web.4.png](../resources/doc_images/web.4.png)
 
-![web.6.png](resources/doc_images/web.6.png)
+![web.6.png](../resources/doc_images/web.6.png)
 
 #### Utilización del Servicio Web
 ----
@@ -321,7 +321,7 @@ A continuación, se mostrarán iconografías e información sobre se utiliza la 
   [Agregar elementos necesarios para la ejecución de la herramienta](#agregar-elementos-necesarios-para-la-ejecución-de-la-herramienta)
    y selccionarlos
 - Dar click en `Cargar archivos`
-    ![web.7.png](resources/doc_images/web.7.png)
+    ![web.7.png](../resources/doc_images/web.7.png)
 
 ##### Ejecución de la herramienta Archi
 ----
@@ -333,17 +333,17 @@ con el objetivo conocer los flujos a seguir antes de ejecutar el script de Anál
 - En el input `Seleccionar el objeto inicial para iniciar la simulación` elegir un elemento del diagrama sobre el cual iniciar el Análisis Cuantitativo
 - Dar click al botón `Ejecutar Archi` del modal
   - Si la aplicación Archi no está ejecutada, el servicio Back end la ejecutará, mostrándose la interfaz de ejecución de Archi sobre el explorador Web
-      ![web.8.png](resources/doc_images/web.8.png)
+      ![web.8.png](../resources/doc_images/web.8.png)
 
 ##### Mostrar y Exportar Resultados de las Simulaciones
 ----
 
 - Luego de haber ejecutado como mínimo una (1) vez los scripts de Análisis Cuantitativo dentro de la herramienta Archi, dar click en botón `Recargar` habilitando el botón `Mostrar resultados`
 - Se mostrarán dos secciones, un mapa de calor junto a una tabla y más abajo dos tablas con valores
-    ![web.9.png](resources/doc_images/web.9.png)
+    ![web.9.png](../resources/doc_images/web.9.png)
 
-    ![web.10.png](resources/doc_images/web.10.png)
+    ![web.10.png](../resources/doc_images/web.10.png)
 - En la tabla con el título `Historial de Simulaciones` se podrá dar click a cada fila, esta acción mostrará en la tabla con el título `Tabla de Resultados | Tabulado` los resultados de esa simulación en particular
 - Al dar click en el botón `Limpiar` se borrarán los resultados de las simulaciones y se ocultarán las secciones de resultados
 - Para exportar los resultados de la simulación seleccionada o la más reciente ejecutada dar click en el botón `Descargar Resultados`, esta mostrará una interfaz indicándole al usuario que va a descargar un archivo
-    ![web.11.png](resources/doc_images/web.11.png)
+    ![web.11.png](../resources/doc_images/web.11.png)
