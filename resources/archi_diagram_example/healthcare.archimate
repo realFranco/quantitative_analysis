@@ -10,19 +10,19 @@
     </element>
     <element xsi:type="archimate:BusinessService" name="Consultar Citas Médicas" id="id-fe9170256e2e4b9d8ec8411b0fdb3436">
       <property key="w" value="3"/>
-      <property key="c" value="21.428571428571427"/>
+      <property key="c" value="32.04685714285714"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
     <element xsi:type="archimate:BusinessService" name="Disponibilidad de Convenios" id="id-23da134913dc476eb8fb84dff3a567ec">
       <property key="w" value="2"/>
-      <property key="c" value="19.142857142857142"/>
+      <property key="c" value="29.506857142857143"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
     <element xsi:type="archimate:BusinessRole" name="Solicitar Atención Médica Bajo Demanda" id="id-3924a0481a184ea68655add7428206ac">
       <property key="w" value="1"/>
-      <property key="c" value="12.904761904761902"/>
+      <property key="c" value="18.809047619047618"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
@@ -40,19 +40,19 @@
     </element>
     <element xsi:type="archimate:BusinessProcess" name="consultar" id="id-5fd9a0d53d49491cad74488f23e34aab">
       <property key="w" value="3"/>
-      <property key="c" value="12"/>
+      <property key="c" value="29.846000000000004"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
     <element xsi:type="archimate:BusinessProcess" name="habilitar" id="id-7ddc0bcb0bba4bffb9d05992ca5b28f7">
       <property key="w" value="2"/>
-      <property key="c" value="8"/>
+      <property key="c" value="27.846000000000004"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
     <element xsi:type="archimate:BusinessProcess" name="verificar" id="id-b12e6ee439be4077976fe1b944200ad3">
       <property key="w" value="2"/>
-      <property key="c" value="14"/>
+      <property key="c" value="28.671999999999997"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
@@ -64,7 +64,7 @@
     </element>
     <element xsi:type="archimate:BusinessService" name="Disponibilidad Horaria" id="id-66458bc3ee3c4bfa8d39949fd63f9080">
       <property key="w" value="2"/>
-      <property key="c" value="12.857142857142856"/>
+      <property key="c" value="20.507428571428573"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
@@ -76,13 +76,13 @@
     </element>
     <element xsi:type="archimate:BusinessProcess" name="autorizar" id="id-908208000b424ff49fd857bc002740a1">
       <property key="w" value="2"/>
-      <property key="c" value="14"/>
+      <property key="c" value="28.671999999999997"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
     <element xsi:type="archimate:BusinessProcess" name="notificar" id="id-9b87e5509edf4009b1f23dfb25814eb6">
       <property key="w" value="7"/>
-      <property key="c" value="28"/>
+      <property key="c" value="34.93000000000001"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
@@ -90,19 +90,19 @@
   <folder name="Application" id="id-231004f8035e4d07be48ad983fb43c37" type="application">
     <element xsi:type="archimate:ApplicationService" name="Recuperación y validación de datos bancarios" id="id-f21a449ae4ee4fa7827e966b94dbef68">
       <property key="w" value="4"/>
-      <property key="c" value="24"/>
+      <property key="c" value="53.343999999999994"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
     <element xsi:type="archimate:ApplicationService" name="Consulta de bloques horarios hábiles" id="id-7dac6590e58646e8bd0c8179b6212c57">
       <property key="w" value="2"/>
-      <property key="c" value="6"/>
+      <property key="c" value="25.846000000000004"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
     <element xsi:type="archimate:ApplicationService" name="Notificación de actividad médica" id="id-c54e0b4a562649ee8200d6207e91cfb6">
       <property key="w" value="7"/>
-      <property key="c" value="21"/>
+      <property key="c" value="27.930000000000007"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
@@ -114,19 +114,19 @@
     </element>
     <element xsi:type="archimate:ApplicationComponent" name="Ejecutar Integraciones Bancarias" id="id-ab15fac7107649dbba8a57f4ec4ec435">
       <property key="w" value="4"/>
-      <property key="c" value="8"/>
+      <property key="c" value="22.671999999999997"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
     <element xsi:type="archimate:ApplicationComponent" name="Mostrar Disponibilidad Médica" id="id-1924f6cba3f044f4ab0669bd0831c694">
       <property key="w" value="2"/>
-      <property key="c" value="4"/>
+      <property key="c" value="23.846000000000004"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
     <element xsi:type="archimate:ApplicationComponent" name="Generar notificaciones" id="id-18c89d211bfc451ab09a716288584ec3">
       <property key="w" value="7"/>
-      <property key="c" value="13.999999999999998"/>
+      <property key="c" value="20.930000000000007"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
@@ -138,74 +138,74 @@
     </element>
     <element xsi:type="archimate:ApplicationService" name="Obtención de datos clínicos" id="id-11f61bde761e47f0bbdb3b74053cd605">
       <property key="w" value="3"/>
-      <property key="c" value="9"/>
+      <property key="c" value="26.846000000000004"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
     <element xsi:type="archimate:ApplicationComponent" name="Consultar Registros Clínicos" id="id-cc9d2765177a4df3abeb22318956af01">
       <property key="w" value="3"/>
-      <property key="c" value="6"/>
+      <property key="c" value="23.846000000000004"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
     <element xsi:type="archimate:ApplicationComponent" name="Aprobar Servicios Médicos bajo Convenios" id="id-3762500d3eaf4bd2b41b68a742fd185b">
       <property key="w" value="4"/>
-      <property key="c" value="8"/>
+      <property key="c" value="22.671999999999997"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
   </folder>
   <folder name="Technology &amp; Physical" id="id-9ad99fc26dd741fc8473d444137988c5" type="technology">
     <element xsi:type="archimate:TechnologyService" name="aws-lambda-servicios-de-pagos" id="id-7eaf9a6c86f04be6ba99cb7ed912386e">
-      <property key="w" value="4.170000000000001"/>
-      <property key="c" value="4.170000000000001"/>
+      <property key="w" value="113.35999999999999"/>
+      <property key="c" value="113.35999999999999"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
     <element xsi:type="archimate:TechnologyService" name="aws-lambda-datos-clinicos" id="id-478186b2886e49ae8f2666c741c8063a">
-      <property key="w" value="4.87"/>
-      <property key="c" value="4.87"/>
+      <property key="w" value="119.23"/>
+      <property key="c" value="119.23"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
     <element xsi:type="archimate:TechnologyService" name="aws-lambda-lanzamiento-de-notificaciones" id="id-6c17b5d3b0e249728f5f45635b91229b">
-      <property key="w" value="2.9000000000000004"/>
-      <property key="c" value="2.9000000000000004"/>
+      <property key="w" value="104.65000000000002"/>
+      <property key="c" value="104.65000000000002"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
-    <element xsi:type="archimate:TechnologyService" name="awsl-ambda-recuperacion-de-metricas" id="id-b1eb69b6713b4fc6ab60c37aec757d14">
-      <property key="w" value="1"/>
+    <element xsi:type="archimate:TechnologyService" name="aws-lambda-recuperacion-de-metricas" id="id-b1eb69b6713b4fc6ab60c37aec757d14">
+      <property key="w" value="100.29999999999998"/>
       <property key="c" value="0"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
-    <element xsi:type="archimate:Device" name="Device" id="id-4380a663069244e598a1fe8f88c4d410">
-      <property key="w" value="4.170000000000001"/>
+    <element xsi:type="archimate:Device" name="Pasarela de Pago" id="id-4380a663069244e598a1fe8f88c4d410">
+      <property key="w" value="113.35999999999999"/>
       <property key="c" value="0"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
-    <element xsi:type="archimate:Device" name="Device" id="id-0e80ffb9a0ce40079fd79fc74d465bc4">
-      <property key="w" value="4.87"/>
+    <element xsi:type="archimate:Device" name="Almacen de Datos Clínicos" id="id-0e80ffb9a0ce40079fd79fc74d465bc4">
+      <property key="w" value="119.23"/>
       <property key="c" value="0"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
-    <element xsi:type="archimate:Device" name="Device" id="id-e11b85cc2e3d48f2b9d38b875abfcda3">
-      <property key="w" value="2.9000000000000004"/>
+    <element xsi:type="archimate:Device" name="Entrega de Contenido" id="id-e11b85cc2e3d48f2b9d38b875abfcda3">
+      <property key="w" value="104.65000000000002"/>
       <property key="c" value="0"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
     <element xsi:type="archimate:Device" name="Cantidad de Interacción" id="id-1f9002f641694baa83b579a2538e3d95">
-      <property key="w" value="1"/>
+      <property key="w" value="100.29999999999998"/>
       <property key="c" value="0"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
     </element>
     <element xsi:type="archimate:Device" name="Tiempo de Interacción" id="id-c0c0a54175164bad8fa6a63ce951633a">
-      <property key="w" value="1"/>
+      <property key="w" value="100.29999999999998"/>
       <property key="c" value="0"/>
       <property key="t_proc" value="1"/>
       <property key="t_resp" value="0"/>
@@ -298,16 +298,6 @@
       <property key="t_b_u_w" value="0"/>
     </element>
     <element xsi:type="archimate:TriggeringRelationship" id="id-27d1ddd5cc8149998741e166a8975753" source="id-fe9170256e2e4b9d8ec8411b0fdb3436" target="id-1bfa9181f72b4d18bd0f5eb593f0e782">
-      <property key="w" value="1"/>
-      <property key="w" value="1"/>
-      <property key="w" value="1"/>
-      <property key="w" value="1"/>
-      <property key="w" value="1"/>
-      <property key="c" value="1"/>
-      <property key="w" value="1"/>
-      <property key="c" value="1"/>
-      <property key="w" value="1"/>
-      <property key="c" value="1"/>
       <property key="w" value="1"/>
       <property key="c" value="1"/>
       <property key="t_d_w" value="0"/>

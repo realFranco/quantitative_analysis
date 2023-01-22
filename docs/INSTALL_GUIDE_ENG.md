@@ -83,7 +83,7 @@ At this point, the jArchi plug-in should be installed, continue with the next se
 ## jArchi Plugin
 ----
 
-### Download jArchi plugin
+### Download jArchi plug-in
 ----
 
 This plug-in (jArchi) has its source code available at:
@@ -93,7 +93,9 @@ This plug-in (jArchi) has its source code available at:
 The generation of the packages object for Java is outside the scope of this installation guide. That is why they will be used
 packages already available for integration with the Archi application.
 
-> https://drive.google.com/file/d/1v04bh5Kk-dz6Qgv5KBOV3sYaAlPAt8nQ
+> jArchi v1.2.0 https://drive.google.com/file/d/1v04bh5Kk-dz6Qgv5KBOV3sYaAlPAt8nQ
+
+> jArchi v1.2.1 https://drive.google.com/file/d/1_W8uRECG_uOWJ_j64lKE-Dln7bpmsI0T
 
 ![jarchi.1.png](../resources/doc_images/jarchi.1.png)
 
@@ -110,7 +112,7 @@ Select the `Help -> Manage Plug-ins` option
 
 Next, the `Install New` option is selected
 
-In the window to explore directories, look for the compressed file with extension `.zip` or `.archimate` downloaded in the section [Download jArchi plug-in](#download-plug-in-jarchi).
+In the window to explore directories, look for the compressed file with extension `.zip` or `.archimate` downloaded in the section [Download jArchi plug-in](#download-jarchi-plug-in).
 
 ![arch.10.png](../resources/doc_images/archi.10.png)
 
@@ -124,11 +126,15 @@ If when you select the `Help -> Manage Plug-ins` option again you do not see the
 ### Install jArchi plug-in (alternative method)
 ----
 
-Open a shell in the directory where the jArchi plug-in has been downloaded and copy the items to the `Archi/plugins/` directory
+Open a shell in the directory where the jArchi plug-in has been downloaded and copy the items inside the `dropins/` directory
 of the Archi application.
 
 ```shell
-unzip jArchi_1.2.0.202110121451.archiplugin.zip -d Archi/plugins/
+# Debian, Ubuntu
+unzip jArchi_1.2.0.202110121451.archiplugin.zip -d user.home/.archi4/dropins
+
+# Mac
+unzip jArchi_1.2.0.202110121451.archiplugin.zip -d user.home/Library/Application Support/Archi4/dropins
 ```
 
 Once the Archi application is instantiated again, select the option to create a new diagram or continue using the application.
@@ -244,7 +250,24 @@ To expand the reference on the AWS CloudWatch Insights query syntax, see the fol
 #### Execute Web Service
 ----
 
-The following steps will allow the Web Service to be executed:
+There is a `Makefile` file to help during the service installation and configuration, make sure that you set the correct
+environment variables (see bellow):
+
+```shell
+# Install dependencies.
+make install
+
+# Execute unit test.
+make test
+
+# Apply changes along the source code related with location resources.
+make tunning
+
+# Serve the web service on the host.
+make run
+```
+
+You can also follow the step by step section:
 
   - In the section [Create a virtual environment and install dependencies](#create-a-virtual-environment-and-install-dependencies)
   If you already had a terminal (Shell) available, use it again or use a new one.
@@ -260,17 +283,27 @@ The following steps will allow the Web Service to be executed:
    cp dist.env .env
    ```
 
-   An example of the environment variables to be defined are the following (tested on an Ubuntu-based Linux Operating System):
+   An example of the environment variables to be defined are the following (Linux and Mac only):
 
    ```
    # Directory. Replace the current value with the folder container for "Archi".
+
+   # Archi runnable example on Linux.
    ARCHI_RUNNABLE=/home/diuble-lig/Desktop/archi/Archi/Archi.sh
+
+   # Archi runnable example on Mac.
+   ARCHI_RUNNABLE=/Applications/Archi.app/Contents/MacOS/Archi
 
    # Project name. If you change the name for the current project, also change this value.
    PROJECT_NAME=quantitative_analysis
 
    # Directory. Absolute route from the host to the project, if you change the project directory structure, also change this value.
+
+   # Project location example on Linux.
    PROJECT_LOCATION=/home/diuble-lig/Desktop/archi/Archi/${PROJECT_NAME}/
+
+   # Project location example on Mac.
+   PROJECT_LOCATION=/Users/user.home/Documents/DEV/${PROJECT_NAME}/
 
    # Localhost address to communicate between client and server.
    PROJECT_HTTP_PROTOCOL=http

@@ -36,7 +36,7 @@ Se explicará cómo instalar y configurar cada componente, como elementos gráfi
 para ayudar en los flujos de configuración.
 
 > Notas:
-> 1. La aplicación Archi y el Servicio Web se han probado en un Sistema Operativo Linux bajo la distribuión Ubuntu 20.04.
+> 1. La aplicación Archi y el Servicio Web se han probado en un Sistema Operativo Linux bajo la distribución Ubuntu 20.04.
 > 2. Algunos de los pasos de instalación requerirán interacción con un terminal (Shell).
 
 ## Aplicación Archi
@@ -45,7 +45,7 @@ para ayudar en los flujos de configuración.
 ### Instalar Aplicación Archi
 ----
 
-Como paso inicial se debe descargar la aplicacion Archi 4.10.0, de momento estará disponible en:
+Como paso inicial se debe descargar la aplicación Archi 4.10.0, de momento estará disponible en:
 
 > https://www.archimatetool.com/download/
 
@@ -53,7 +53,7 @@ Como paso inicial se debe descargar la aplicacion Archi 4.10.0, de momento estar
 
 ![archi.2.png](../resources/doc_images/archi.2.png)
 
-En caso de que la versión de Archi 4.10.0 no sea la versión estable más reciente, esta también se podrá encontrar aqui:
+En caso de que la versión de Archi 4.10.0 no sea la versión estable más reciente, esta también se podrá encontrar aquí:
 
 > https://www.archimatetool.com/archive/
 
@@ -93,7 +93,9 @@ Este plug-in (jArchi) tiene su código fuente disponible en:
 La generación del objeto packages para Java está fuera del alcance esta guía de instalación. Es por ello que se utilizarán
 packages ya disponibles para su integración con la aplicación Archi.
 
-> https://drive.google.com/file/d/1v04bh5Kk-dz6Qgv5KBOV3sYaAlPAt8nQ
+> jArchi v1.2.0 https://drive.google.com/file/d/1v04bh5Kk-dz6Qgv5KBOV3sYaAlPAt8nQ
+
+> jArchi v1.2.1 https://drive.google.com/file/d/1_W8uRECG_uOWJ_j64lKE-Dln7bpmsI0T
 
 ![jarchi.1.png](../resources/doc_images/jarchi.1.png)
 
@@ -124,14 +126,18 @@ Si al seleccionar nuevamente la opción `Help -> Manage Plug-ins` no se observa 
 ### Instalar plug-in jArchi (método alternativo)
 ----
 
-Abrir un terminal (Shell) en el directorio donde se ha descargado el plug-in jArchi y copiar los elementos en el directorio `Archi/plugins/`
+Abrir un terminal (Shell) en el directorio donde se ha descargado el plug-in jArchi y copiar los elementos en el directorio `dropins/`
 de la aplicación Archi.
 
 ```shell
-unzip jArchi_1.2.0.202110121451.archiplugin.zip  -d Archi/plugins/
+# Debian, Ubuntu
+unzip jArchi_1.2.0.202110121451.archiplugin.zip -d user.home/.archi4/dropins
+
+# Mac
+unzip jArchi_1.2.0.202110121451.archiplugin.zip -d user.home/Library/Application Support/Archi4/dropins
 ```
 
-Una vez que la aplicacion Archi vuelva a instanciarse, seleccionar la opción de crear un nuevo diagrama o continuar con la utilización de la aplicación.
+Una vez que la aplicación Archi vuelva a ejecutarse, seleccionar la opción de crear un nuevo diagrama o continuar con la utilización de la aplicación.
 
 Repetir el flujo `Help -> Manage Plug-ins` y observar si el plugin está instalado.
 
@@ -155,7 +161,7 @@ Con el objetivo de ejecutar los scripts escritos para el plugin de forma esperad
         ![archi.16.png](../resources/doc_images/archi.16.png)
     - Se abrirá un explorador de directorios, seleccionar el directorio `scripts/` del proyecto `quantitative_analysis` y luego click en `Open`
         ![archi.17.png](../resources/doc_images/archi.17.png)
-    - En la ventana de `Preferences` dar clcick en `Apply and Close` para confirmar cambios
+    - En la ventana de `Preferences` dar click en `Apply and Close` para confirmar cambios
 
 En este punto ya se podrá descargar el Servicio Web que contiene interfaces para ejecutar la aplicación de manera más
 sencilla, mostrar y descargar los resultados de las simulaciones.
@@ -170,7 +176,7 @@ El proyecto `quantitative_analysis` contiene elementos para desplegar el "Servic
 ### Descargar Servicio Web
 ----
 
-El proyecto al estar hosteado desde la herramienta para versionado de código fuente `GitHub` posee varias maneras de descargar
+El proyecto al estar disponible desde la herramienta para versionado de código fuente `GitHub` posee varias maneras de descargar
 proyectos. Esta vez descargaremos el proyecto desde la terminal (Shell).
 
 ![web.1.png](../resources/doc_images/web.1.png)
@@ -236,7 +242,7 @@ dos archivos ya que serán útiles en flujos posteriores del Servicio Web.
 
 ![aws.2.png](../resources/doc_images/aws.2.png)
 
-Para ampliar las referencia sobre la sintáxis de consulta de AWS CloudWatch Insights observar los siguientes enlaces:
+Para ampliar las referencia sobre la sintaxis de consulta de AWS CloudWatch Insights observar los siguientes enlaces:
 
 > https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html
 > https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax-examples.html
@@ -244,7 +250,24 @@ Para ampliar las referencia sobre la sintáxis de consulta de AWS CloudWatch Ins
 #### Ejecutar Servicio Web
 ----
 
-Los siguientes pasos van a permitir ejecutar el Servicio Web:
+Existe un archivo `Makefile` para ayudar en la instalación y configuración, como precondición define de manera correcta
+las variables de entorno (observe en las siguientes secciones):
+
+```shell
+# Install dependencies.
+make install
+
+# Execute unit test.
+make test
+
+# Apply changes along the source code related with location resources.
+make tunning
+
+# Serve the web service on the host.
+make run
+```
+
+También puedes seguir la instalación y configuración paso a paso:
 
  - En la sección [Crear un entorno virtual e instalar dependencias](#crear-un-entorno-virtual-e-instalar-dependencias) 
  ya se tenía un terminal (Shell) disponible, volver a utilizarlo o bien utilizar uno nuevo.
@@ -260,17 +283,27 @@ Los siguientes pasos van a permitir ejecutar el Servicio Web:
   cp dist.env .env
   ```
 
-  Un ejemplo de las variables de entorno a ser definidas son las siguientes (probado en un Sistema Operativo Linux basado en Ubuntu):
+  Un ejemplo de las variables de entorno a ser definidas son las siguientes (válido para Linux y Mac):
 
   ```
   # Directory. Replace the current value with the folder container for "Archi".
+
+  # Archi runnable example on Linux.
   ARCHI_RUNNABLE=/home/diuble-lig/Desktop/archi/Archi/Archi.sh
+
+  # Archi runnable example on Mac.
+  ARCHI_RUNNABLE=/Applications/Archi.app/Contents/MacOS/Archi
 
   # Project name. If you change the name for the current project, also change this value.
   PROJECT_NAME=quantitative_analysis
 
   # Directory. Absolute route from the host to the project, if you change the project directory structure, also change this value.
+
+  # Project location example on Linux.
   PROJECT_LOCATION=/home/diuble-lig/Desktop/archi/Archi/${PROJECT_NAME}/
+
+  # Project location example on Mac.
+  PROJECT_LOCATION=/Users/user.home/Documents/DEV/${PROJECT_NAME}/
 
   # Localhost address to communicate between client and server.
   PROJECT_HTTP_PROTOCOL=http
@@ -298,7 +331,7 @@ Los siguientes pasos van a permitir ejecutar el Servicio Web:
   python3 main.py
   ```
 
- - Dentro del terminal aparecerán mensajes informativos sobre el servicio instanciado, entre ellos aparecerá una dirección web.
+ - Dentro del terminal aparecerán mensajes informativos sobre el servicio ejecutado, entre ellos aparecerá una dirección web.
  `http://127.0.0.1:8000` (siempre y cuando las variables de entorno definidas en `.env` se mantengan por defecto) dar
  click en ella para mostrar la interfaz del Servicio Web.
 
