@@ -1,3 +1,4 @@
+import platform
 import os
 
 from src.models.ServiceStatus import ServiceStatus
@@ -25,7 +26,10 @@ class ArchiRunner:
                 )
 
             # Check the output of the process to control the response
-            os.popen(f'sh {os.getenv("ARCHI_RUNNABLE")}')
+            if platform.system() == 'Darwin':
+                os.popen(f'cd / && .{os.getenv("ARCHI_RUNNABLE")}')
+            else:  # Check how it's look on Ubuntu.
+                os.popen(f'sh {os.getenv("ARCHI_RUNNABLE")}')
 
             return ServiceStatus(
                 info='"Archi" service it is running now.',

@@ -127,8 +127,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-# Development resources to be ignored.
-
-dev.info
-/dev.assets/

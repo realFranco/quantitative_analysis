@@ -2,11 +2,9 @@
 Description: Iacob & Jonkers - Top Down & Bottom Up formal definition
 
 Some reference: https://github.com/archimatetool/archi-scripting-plugin/wiki/jArchi-Collection
-
-Archi: The interpreter, put in Nashhorn ES6 to work
 */
 
-const RAW_PROJECT_LOCATION = '/home/diuble-lig/Documents/DEV/quantitative_analysis/';
+const RAW_PROJECT_LOCATION = '_PROJECT_LOCATION_';
 
 // {readJson}
 load(RAW_PROJECT_LOCATION + 'scripts/scriptReadJson.ajs');
@@ -74,20 +72,16 @@ function main() {
     console.log('Initial node: ' + nodoInicio.name);
     
     camino2.push({'id': nodoInicio.id, 'name': nodoInicio.name});
-    // console.log('nodo inicio: ', nodoInicio);
     topDown(nodoInicio, camino, camino2, allSteps);
 
-    // Aplicar cargas de trabajo computadas desde recursos externos
     var jobs_data = readJson(`${config.PROJECT_LOCATION}${config.COMPUTE_RESOURCE_LOCATION}`);
     if (undefined == jobs_data) { 
         console.log('`jobs_data` is undefined, the analysis was stopped.');
         return undefined;
     }
 
-    // console.log('jobs_data ', jobs_data);
     setWorkLoad(jobs_data);
 
-    // Ejecutar top down sobre los nodos editados y sus herederos
     getNodesWithAlterWoks(jobs_data).forEach((nodo) => {
         topDown(nodo, [], [], []);
     });
